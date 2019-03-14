@@ -1,0 +1,169 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="揭开redux，react-redux的神秘面纱 Blog 所有分类 技术 Redux 16年开始使用react-redux,迄今也已两年多。这时候再来阅读和读懂reduxreact-redux源码，虽已没有当初的新鲜感，但依然觉得略有收获。把要点简单写下来，一方面供感兴趣的读者参考，另一方面也是自己做下总结。 REDUX react-redux最核心的内容就是redux。内带redux，react-redux只提供了几个API来关联redux与react的组件以及react state的更新。 首先，看下如何使用redux。 redux老司机可以直接滑动滚轮至下一章。 简单来说，redux有三个概念，action,">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>揭开redux，react-redux的神秘面纱 (苏溪云的博客)</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  </head>
+  <body>
+    
+<div id="preRender" style="width:1px;height:1px;overflow:hidden;"></div>
+    <div id="markedHtml" style="display: none;"><p>16年开始使用react-redux,迄今也已两年多。这时候再来阅读和读懂redux/react-redux源码，虽已没有当初的新鲜感，但依然觉得略有收获。把要点简单写下来，一方面供感兴趣的读者参考，另一方面也是自己做下总结。</p>
+<h2 id="redux">redux</h2>
+<p>react-redux最核心的内容就是redux。内带redux，react-redux只提供了几个API来关联redux与react的组件以及react state的更新。</p>
+<p>首先，看下如何使用redux。 redux老司机可以直接滑动滚轮至下一章。<br>简单来说，redux有三个概念，action, reducer 和 dispatch。 action和dispatch比较好理解：动作指令和提交动作指令方法。而reducer，个人在字面上没有理解，但抽象层面上可以理解为用来生成state的函数。用一个简单案例体现这三个概念：</p>
+<pre><code class="language-js">// action
+const INCREMENT = { type: &#39;INCREMENT&#39; }
+
+// reducer
+function count( state = 0, action ) {
+    switch( action.type ) {
+        case &#39;INCREMENT&#39;:
+            return state + 1
+        default: 
+          return state
+    }
+}
+
+// dispatch
+// 此处开始使用redux
+const store = redux.createStore( count )
+console.log( store.getState() )  // 0
+store.dispatch( INCREMENT )
+console.log( store.getState() ) // 1</code></pre>
+<p>接下来说说redux中的两大模块：</p>
+<ul>
+<li><code>store</code>对象</li>
+<li>中间件</li>
+</ul>
+<h2 id="store-">store对象</h2>
+<p>API<code>createStore</code>会创建了一个<code>store</code>对象,创建的过程中它主要做了下面两件事：</p>
+<ol>
+<li>初始化state</li>
+<li>暴露相关接口：<code>getState()</code>, <code>dispatch( action )</code>, <code>subscribe( listener )</code>等。其中<code>getState()</code>用来获取store中的实时state, <code>dispatch(action)</code>根据传入的action更新state, <code>subscribe( listener)</code>可以监听state的变化。</li>
+</ol>
+<h2 id="-">中间件</h2>
+<p>中间件可以用来debug或提交异步动作指令. 在初始化store的时候，我们通过<code>createStore( reducer, state, applyMiddleware( middleware1, middleware2 ) )</code>添加多个中间件。<br>为了实现多个中间件，redux专门引入了函数式编程的<code>compose()</code>方法，简单来说，<code>compose</code>将多层函数调用的写法变得优雅：</p>
+<pre><code class="language-js">// 未使用compose方法
+a( b( c( &#39;d&#39; ) ) )
+
+// 用compose方法
+compose( a, b, c )(&#39;d&#39;)</code></pre>
+<p>而中间件的写法比较奇特，是多级函数，在阅读源码的时候有点绕。显然中间件的写法还可以优化，尽管现在的写法方便在源码中使用，但对redux用户来说稍显复杂，可以用单层函数。</p>
+<pre><code class="language-js">function logMiddleware({ getState  }) {
+    return nextDispatch =&gt; action =&gt; {
+        console.log( &#39;before dispatch&#39;, getState() )
+        const res = nextDispatch( action )
+        console.log( &#39;after dispatch&#39;, getState() )
+        return res
+    }
+}</code></pre>
+<h2 id="react-redux">react-redux</h2>
+<p>了解了redux运作原理，就可以知道react-redux的大部分使用场景是如何运作。react-redux提供了几个API将redux与react相互关联。</p>
+<p>基于上一个案例展示react-redux的用法：</p>
+<pre><code class="language-jsx">// action
+const increment = () =&gt; ({ type: &#39;INCREMENT&#39; })
+
+// reducer
+function count( state = 0, action ) {
+    switch( action.type ) {
+        case &#39;INCREMENT&#39;:
+            return state + 1
+        default: 
+          return state
+    }
+}
+
+// redux
+const store = Redux.createStore( count )
+
+// react-redux
+const { Provider, connect } = ReactRedux
+const mapStateToProps = state =&gt; ( { count: state } )
+const mapDispatchToProps = dispatch =&gt; ( { increment : () =&gt; dispatch( increment() ) } )
+const App = connect( mapStateToProps, mapDispatchToProps )( class extends React.Component {
+  onClick = () =&gt; {
+   this.props.increment()
+  }  
+  render() {
+        return &lt;div&gt;
+          &lt;p&gt;Count: { this.props.count }&lt;/p&gt;
+          &lt;button onClick={ this.onClick }&gt;+&lt;/button&gt;
+        &lt;/div&gt;
+    }
+} )
+
+ReactDOM.render( &lt;Provider store={ store }&gt;
+    &lt;App /&gt;
+&lt;/Provider&gt;, document.getElementById( &#39;app&#39; ) )</code></pre>
+<iframe src="https://terry-su.github.io/BlogCDN/iframes/js/react-redux/demo/index.html?mode=result"></iframe>
+
+
+
+<p>react-redux提供最常用的两个API是：</p>
+<ul>
+<li><code>Provider</code></li>
+<li><code>connect</code></li>
+</ul>
+<h2 id="provider"><code>Provider</code></h2>
+<p>Provider本质上是一个react组件，通过react的<a href="https://reactjs.org/docs/legacy-context.html#how-to-use-context">context api</a>(使一个组件可以跨多级组件传递props)挂载redux store中的state，并且当组件初始化后开始监听state。
+当监听到state改变，Provider会重新<code>setState</code>在context上的<code>storeState</code>，简要实现代码如下：</p>
+<pre><code class="language-jsx">class Provider extends Component {
+    constructor(props) {
+      super(props)
+
+      const { store } = props
+
+      this.state = {
+        storeState: Redux.store.getState(),
+      }
+    }
+
+    componentDidMount() {
+      this.subscribe()
+    }
+
+    subscribe() {
+        const { store } = this.props
+        store.subscribe(() =&gt; {
+          const newStoreState = store.getState()
+          this.setState(providerState =&gt; {
+            return { storeState: newStoreState }
+          })
+        })
+    }
+    render() {
+        const Context = React.createContext(null)
+        &lt;Context.Provider value={this.state}&gt;
+            {this.props.children}
+        &lt;/Context.Provider&gt;
+    }
+}</code></pre>
+<h2 id="connect-"><code>connect()</code></h2>
+<p><code>connect</code>方法通过<code>connectHOC</code>（HOC: react高阶组件）将部分或所有state以及提交动作指令方法赋值给react组件的props。</p>
+<h2 id="-">小结</h2>
+<p>写react不用redux就像写代码不用git, 我们需要用redux来更好地管理react应用中的state。了解redux/react-redux的运作原理会消除我们在使用redux开发时的未知和疑惑，并且在脑中有一个完整的代码执行回路，让开发流程变得透明，直观。</p>
+</div>
+    <div id="app"></div>
+  
+    
+    <script>window.GV={ dataString: "%7B%22name%22%3A%22%u63ED%u5F00redux%uFF0Creact-redux%u7684%u795E%u79D8%u9762%u7EB1%22%2C%22createTime%22%3A%222018/12/18%209%3A27%22%2C%22categorySequence%22%3A%5B%22%u6240%u6709%u5206%u7C7B%22%2C%22%u6280%u672F%22%2C%22Redux%22%5D%2C%22tags%22%3A%5B%5D%2C%22config%22%3A%7B%22detail%22%3A%7B%22scripts%22%3A%5B%22%3Cscript%20src%3D%5C%22https%3A//terry-su.github.io/BlogCDN/scripts/detail.bundle.js%5C%22%3E%3C/script%3E%22%2C%22%5Cn%3Cscript%3E%5Cnvar%20_hmt%20%3D%20_hmt%20%7C%7C%20%5B%5D%3B%5Cn%28function%28%29%20%7B%5Cn%20%20var%20hm%20%3D%20document.createElement%28%5C%22script%5C%22%29%3B%5Cn%20%20hm.src%20%3D%20%5C%22https%3A//hm.baidu.com/hm.js%3Fcc6d133d9a7057a832c9b0dd0242546b%5C%22%3B%5Cn%20%20var%20s%20%3D%20document.getElementsByTagName%28%5C%22script%5C%22%29%5B0%5D%3B%20%5Cn%20%20s.parentNode.insertBefore%28hm%2C%20s%29%3B%5Cn%7D%29%28%29%3B%5Cn%3C/script%3E%5Cn%22%5D%2C%22slogan%22%3A%22%u4E0D%u79EF%u8DEC%u6B65%uFF0C%u65E0%u4EE5%u81F3%u5343%u91CC%22%2C%22textLogo%22%3A%22%u82CF%u6EAA%u4E91%22%2C%22commentRoot%22%3A%22https%3A//api.github.com/repos/terry-su/tsblogcomments-cn/issues/%22%2C%22commentPageRoot%22%3A%22https%3A//github.com/Terry-Su/TSBlogComments-Cn/issues/%22%2C%22home%22%3A%22/cn%22%2C%22bottomText%22%3A%22%3Cbr/%3E%20%u5982%u679C%u672C%u6587%u5E2E%u52A9%u5230%u4E86%u4F60%uFF0C%u6211%u4E5F%u5341%u5206%u8363%u5E78%u3002%u5982%u679C%u6709%u4EFB%u4F55%u7591%u95EE%u6216%u8005%u5EFA%u8BAE%uFF0C%u90FD%u6B22%u8FCE%u5728%u4E0B%u65B9%u8BC4%u8BBA%u533A%u63D0%u51FA%u3002%u671F%u5F85%u4F60%u7684%u771F%u77E5%u707C%u89C1%u3002%22%2C%22mathCssUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css%22%2C%22mathJsUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.js%22%2C%22mermaidJsUrl%22%3A%22https%3A//terry-su.github.io/CDN/libraries/mermaid/mermaid.min.js%22%7D%2C%22lang%22%3A%22cn%22%7D%2C%22uniqueHtmlName%22%3A%22reveal-redux-react-redux-mask%22%2C%22blogProps%22%3A%7B%22name%22%3A%22%u63ED%u5F00redux%uFF0Creact-redux%u7684%u795E%u79D8%u9762%u7EB1%22%2C%22createTime%22%3A%222018/12/18%209%3A27%22%2C%22comment%22%3A%224%22%7D%7D" }</script>
+    <script src="https://terry-su.github.io/BlogCDN/scripts/detail.bundle.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?cc6d133d9a7057a832c9b0dd0242546b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  </body>
+  </html>
+  

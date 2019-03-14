@@ -1,0 +1,164 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Master JavaScript Implicit Type Conversion Blog All Technology Javascript Topic javascript The Peak of Mountain QingCheng [https:terry-su.github.ioBlogCDNimagesphotoqing-cheng-shan.jpg] The Peak of Mountain QingCheng Before starting this written-in-English article, I'd like to thank @l3l_aze [https:www.reddit.comuserl3l_aze]">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Master JavaScript Implicit Type Conversion (Terry Su Blog)</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  </head>
+  <body>
+    
+<div id="preRender" style="width:1px;height:1px;overflow:hidden;"></div>
+    <div id="markedHtml" style="display: none;"><p><img src="https://terry-su.github.io/BlogCDN/images/photo/qing-cheng-shan.jpg" alt="The Peak of Mountain QingCheng">
+<em>The Peak of Mountain QingCheng</em></p>
+<p>Before starting this written-in-English article, I&#39;d like to thank   <a href="https://www.reddit.com/user/l3l_aze">@l3l_aze</a> for pointing out my previous technology article&#39;s problems and giving me precious advice on how to write better in English. And after some time for preparation, I start writing articles in English again and will continue to write more.</p>
+<p>Implicit type conversion is one of JavaScript&#39;s most hot and important features. To master it completely, I&#39;ve searched lots of relevant articles, consulted the book &quot;JavaScript: The Definitive Guide, 6th&quot; and summarized those concepts, ideas, examples into this article.</p>
+<blockquote>
+<p>To learn a new knowledge point, we usually search and read a lot of relevant materials(blogs, StackOverflow, etc) online. However, to master it thoroughly, we&#39;d better look for its origin from the definitive material like MDN or a definitive book to ensure its correctness.</p>
+</blockquote>
+<h2 id="what-s-the-implicit-type-conversion-">What&#39;s the implicit type conversion?</h2>
+<p>JavaScript is very flexible, it will convert the type of a value as needed automatically.
+For example:</p>
+<pre><code class="language-js">&#39;&#39; + 1 // &#39;1&#39;</code></pre>
+<h2 id="when-will-implicit-type-conversion-happen-">When will implicit type conversion happen?</h2>
+<p>Here lists commonly used situations:</p>
+<p><strong>Expressions(with operators)</strong><br><em>Arithmetic</em>  </p>
+<ul>
+<li><code>+</code></li>
+</ul>
+<pre><code class="language-js">/* unary +, converse x to number */
++ x
+
++ 1 // 1
++ &#39;1&#39; // 1
++ true // 1
++ new Date() // (a numeric value)
+
+
+/* two operands */
+a + b
+
+// 1. if either is an object, converse it to a primitive first
+{} + {} // &#39;[object object][object object]&#39;
+[] + [] // &#39;&#39;
+[] + new Date() // (A date string)
+
+// 2. if one is a string, converse the other to a string
+1 + &#39;&#39; // &#39;1&#39;
+&#39;&#39; + 1 // &#39;1&#39;
+&#39;&#39; + true // &#39;true&#39;
+
+// 3. otherwise, converse both to numbers
+1 + true // 2
+true + true // 2</code></pre>
+<ul>
+<li><code>-</code>, <code>*</code>, <code>/</code>, <code>++</code>, <code>--</code></li>
+</ul>
+<pre><code class="language-js">/* Converse value or values to number */
+- &#39;1&#39; // -1
+[] - 1 // -1
+[] - {} // NaN</code></pre>
+<p><em>Relational</em></p>
+<ul>
+<li><code>==</code>, <code>!=</code></li>
+</ul>
+<pre><code class="language-js">/* two operands */
+a == b
+
+// 1. if one is `null` and the other is `undefined`, they are equal
+null == undefined // true
+
+// 2. if one is a number and the other is a string, convert the string
+// to a number, compare again
+1 == &#39;1&#39; // true
+
+// 3. if either is boolean, convert it to a number, compare again
+true == 1 // true
+false == 0 // true
+
+// 4. if one is an object, and the other is a number or a string, 
+// convert the object to a primitive, compare again
+[ 1 ] == 1 // true
+[ &#39;1&#39; ] == &#39;1&#39; // true</code></pre>
+<ul>
+<li><code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code></li>
+</ul>
+<pre><code class="language-js">/* two operands */
+a &gt; b
+
+// 1. if either is an object, convert it to a primitive, compare again
+[ 2 ] &gt; 1 // true
+
+// 2. if both are strings, compare them using alphabetical order
+&#39;b&#39; &gt; &#39;a&#39; // true
+
+// 3. if either is a number, convert one or two not number to number
+&#39;2&#39; &gt; 1 // true</code></pre>
+<ul>
+<li><code>in</code></li>
+</ul>
+<pre><code class="language-js">/* if left operand isn&#39;t a string, convert it to a string  */
+a in b
+
+&#39;1&#39; in { 1: &#39;&#39; } // true
+1 in { 1: &#39;a&#39; } // true
+1 in [ &#39;a&#39;, &#39;b&#39; ] // true</code></pre>
+<p><em>Logic</em>  </p>
+<ul>
+<li><code>&amp;&amp;</code>, <code>||</code>, <code>!</code></li>
+</ul>
+<pre><code class="language-js">/* if either isn&#39;t booelan, convert it to a boolean value */
+Boolean( null || undefined || 0 || -0 || NaN || &#39;&#39; ) // false
+Boolean( 1 &amp;&amp; &#39;a&#39; &amp;&amp; {} &amp;&amp; [] &amp;&amp; [0] &amp;&amp; function(){} ) // true</code></pre>
+<p>Note that <strong>following</strong> <code>?:</code>, <code>if</code>, <code>else if</code>, <code>while</code>, <code>do/while</code> and <code>for</code> use the <strong>same implicit type conversion way</strong> as <code>&amp;&amp;</code>, <code>||</code> and <code>!</code>(Logic expression).</p>
+<p><em>Conditional</em></p>
+<ul>
+<li><code>?:</code></li>
+</ul>
+<p><strong>Statements</strong><br><em>Conditional</em>  </p>
+<ul>
+<li><code>if</code>, <code>else if</code></li>
+</ul>
+<p><em>Loop</em></p>
+<ul>
+<li><code>while</code>, <code>do/while</code>, <code>for</code></li>
+</ul>
+<h2 id="how-about-explicit-type-conversion">How about explicit type conversion</h2>
+<p>Explicit type conversion makes the type conversion codes clear.<br>Although there&#39;re many ways to perform an explicit type conversion, such as <code>toString()</code> and <code>parseInt()</code>, it&#39;s recommended to use <code>Boolean()</code>, <code>Number()</code>, <code>String()</code> or <code>Object()</code> functions.</p>
+<pre><code class="language-js">Boolean( 1 ) // true
+Boolean( 0 ) // false
+
+Number( &#39;1&#39; ) // 1
+
+String( 1 ) // &#39;1&#39;
+
+Object( 1 ) // new Number(1)</code></pre>
+<h2 id="common-javascript-type-conversion">Common JavaScript Type Conversion</h2>
+<p>The following reference table, from the book &quot;JavaScript: The Definitive Guide, 6th&quot;, is especially convenient to look up common type conversion in JavaScript</p>
+<p><img src="https://terry-su.github.io/BlogCDN/images/javascript-type-conversion.png" alt="Little Bar">
+<em>&quot;JavaScript-The Definitive Guide 6th&quot; 3.8.0</em></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Implicit type conversion can be very useful sometimes, simplifying our codes, for example. But we&#39;d better also pay attention to the potential risk that conversed value could be unexpected if someone wasn&#39;t familiar with the rules of implicit type conversion enough. To avoid this, use explicit type conversion instead.</p>
+</div>
+    <div id="app"></div>
+  
+    
+    <script>window.GV={ dataString: "%7B%22name%22%3A%22Master%20JavaScript%20Implicit%20Type%20Conversion%22%2C%22createTime%22%3A%222018/10/09%2014%3A53%22%2C%22categorySequence%22%3A%5B%22All%22%2C%22Technology%22%2C%22Javascript%22%2C%22Topic%22%5D%2C%22tags%22%3A%5B%22javascript%22%5D%2C%22config%22%3A%7B%22detail%22%3A%7B%22scripts%22%3A%5B%22%3Cscript%20src%3D%5C%22https%3A//terry-su.github.io/BlogCDN/scripts/detail.bundle.js%5C%22%3E%3C/script%3E%22%2C%22%5Cn%3Cscript%3E%5Cnvar%20_hmt%20%3D%20_hmt%20%7C%7C%20%5B%5D%3B%5Cn%28function%28%29%20%7B%5Cn%20%20var%20hm%20%3D%20document.createElement%28%5C%22script%5C%22%29%3B%5Cn%20%20hm.src%20%3D%20%5C%22https%3A//hm.baidu.com/hm.js%3Fcc6d133d9a7057a832c9b0dd0242546b%5C%22%3B%5Cn%20%20var%20s%20%3D%20document.getElementsByTagName%28%5C%22script%5C%22%29%5B0%5D%3B%20%5Cn%20%20s.parentNode.insertBefore%28hm%2C%20s%29%3B%5Cn%7D%29%28%29%3B%5Cn%3C/script%3E%5Cn%22%5D%2C%22slogan%22%3A%22Step%20by%20step%22%2C%22textLogo%22%3A%22TS%22%2C%22commentRoot%22%3A%22https%3A//api.github.com/repos/terry-su/tsblogcomments-en/issues/%22%2C%22commentPageRoot%22%3A%22https%3A//github.com/Terry-Su/TSBlogComments-En/issues/%22%2C%22home%22%3A%22/%22%2C%22bottomText%22%3A%22%3Cbr/%3EOK%2C%20that%27s%20all.%20It%27s%20my%20pleasure%20if%20this%20article%20helped%20you.%20And%20if%20you%20have%20any%20questions%20or%20advice%2C%20just%20make%20a%20comment%20at%20the%20bottom.%20Hope%20for%20your%20incisive%20insights.%22%2C%22mathCssUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css%22%2C%22mathJsUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.js%22%2C%22mermaidJsUrl%22%3A%22https%3A//terry-su.github.io/CDN/libraries/mermaid/mermaid.min.js%22%7D%2C%22lang%22%3A%22en%22%7D%2C%22uniqueHtmlName%22%3A%22master-javascript-implicit-type-conversion%22%2C%22blogProps%22%3A%7B%22createTime%22%3A%222018/10/09%2014%3A53%22%2C%22tags%22%3A%5B%22javascript%22%5D%2C%22comment%22%3A%2211%22%7D%7D" }</script>
+    <script src="https://terry-su.github.io/BlogCDN/scripts/detail.bundle.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?cc6d133d9a7057a832c9b0dd0242546b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  </body>
+  </html>
+  

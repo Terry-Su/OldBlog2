@@ -1,0 +1,82 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Vivid Metaphor of Data Structures Blog All Technology Algorithm Topic Data structures are abstract, sometimes hard to be understood. However, vivid metaphor helps us to master them better. Data strcutres included in this article: * stack * queue * linked list STACK First, let's see stack's core features:">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vivid Metaphor of Data Structures (Terry Su Blog)</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  </head>
+  <body>
+    
+<div id="preRender" style="width:1px;height:1px;overflow:hidden;"></div>
+    <div id="markedHtml" style="display: none;"><p>Data structures are abstract, sometimes hard to be understood. However, vivid metaphor helps us to master them better.  </p>
+<p>Data strcutres included in this article:</p>
+<ul>
+<li>stack</li>
+<li>queue</li>
+<li>linked list</li>
+</ul>
+<h2 id="stack">Stack</h2>
+<p>First, let&#39;s see stack&#39;s core features:</p>
+<ul>
+<li><code>push( item )</code>: push an item at end</li>
+<li><code>pop()</code>: remove an item from end</li>
+<li><code>peek()</code>: get the end element</li>
+</ul>
+<p>I found a <a href="https://jshilpa.com/stacks-in-a-nutshell-learning-through-examples/">very visual example</a> before, that&#39;s an open chips box.   </p>
+<p>And to corresponse with our development habbit(count index from left to right), I push it down.   </p>
+<p><img src="https://terry-su.github.io/BlogCDN/images/pringles.jpg" alt="">      </p>
+<ul>
+<li>we push a chip into box: <code>push( chip )</code></li>
+<li>we take a chip from box: <code>pop()</code></li>
+<li>current top chip in box: <code>peek()</code></li>
+</ul>
+<h2 id="queue">Queue</h2>
+<p>Queue is similiar to stack, but easiler to learn.   </p>
+<p>Queue&#39;s key features are:</p>
+<ul>
+<li><code>enqueue( item )</code>: push an item at end </li>
+<li><code>dequeue()</code>: remove an item from front</li>
+<li><code>peekFront()</code>: get the front item</li>
+<li><code>peekEnd()</code>: get the end item</li>
+</ul>
+<p>Suppose there&#39;re some people queuing to use ATM.  </p>
+<p><img src="https://terry-su.github.io/BlogCDN/images/queue-for-atm.png" alt="">  </p>
+<ul>
+<li>at end comes a new guy: <code>enqueue( person )</code></li>
+<li>front guy has done and leave: <code>dequeue()</code></li>
+<li>current front guy: <code>peekFront()</code></li>
+<li>current last guy: <code>peekEnd()</code></li>
+</ul>
+<h2 id="linked-list">Linked List</h2>
+<p>Linked list consists of nodes, and each node can have a link to another link, like a chain.</p>
+<p><img src="https://terry-su.github.io/BlogCDN/images/chain.jpg" alt="">  </p>
+<p>Mock its main concept via codes:</p>
+<pre><code class="language-js">const nodeC = { link: null }
+const nodeB = { link: nodeC }
+const nodeA = { link: nodeB }
+
+const linkedList = { head: nodeA }</code></pre>
+</div>
+    <div id="app"></div>
+  
+    
+    <script>window.GV={ dataString: "%7B%22name%22%3A%22Vivid%20Metaphor%20of%20Data%20Structures%22%2C%22createTime%22%3A%222019/01/17%2012%3A39%22%2C%22categorySequence%22%3A%5B%22All%22%2C%22Technology%22%2C%22Algorithm%22%2C%22Topic%22%5D%2C%22tags%22%3A%5B%5D%2C%22config%22%3A%7B%22detail%22%3A%7B%22scripts%22%3A%5B%22%3Cscript%20src%3D%5C%22https%3A//terry-su.github.io/BlogCDN/scripts/detail.bundle.js%5C%22%3E%3C/script%3E%22%2C%22%5Cn%3Cscript%3E%5Cnvar%20_hmt%20%3D%20_hmt%20%7C%7C%20%5B%5D%3B%5Cn%28function%28%29%20%7B%5Cn%20%20var%20hm%20%3D%20document.createElement%28%5C%22script%5C%22%29%3B%5Cn%20%20hm.src%20%3D%20%5C%22https%3A//hm.baidu.com/hm.js%3Fcc6d133d9a7057a832c9b0dd0242546b%5C%22%3B%5Cn%20%20var%20s%20%3D%20document.getElementsByTagName%28%5C%22script%5C%22%29%5B0%5D%3B%20%5Cn%20%20s.parentNode.insertBefore%28hm%2C%20s%29%3B%5Cn%7D%29%28%29%3B%5Cn%3C/script%3E%5Cn%22%5D%2C%22slogan%22%3A%22Step%20by%20step%22%2C%22textLogo%22%3A%22TS%22%2C%22commentRoot%22%3A%22https%3A//api.github.com/repos/terry-su/tsblogcomments-en/issues/%22%2C%22commentPageRoot%22%3A%22https%3A//github.com/Terry-Su/TSBlogComments-En/issues/%22%2C%22home%22%3A%22/%22%2C%22bottomText%22%3A%22%3Cbr/%3EOK%2C%20that%27s%20all.%20It%27s%20my%20pleasure%20if%20this%20article%20helped%20you.%20And%20if%20you%20have%20any%20questions%20or%20advice%2C%20just%20make%20a%20comment%20at%20the%20bottom.%20Hope%20for%20your%20incisive%20insights.%22%2C%22mathCssUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css%22%2C%22mathJsUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.js%22%2C%22mermaidJsUrl%22%3A%22https%3A//terry-su.github.io/CDN/libraries/mermaid/mermaid.min.js%22%7D%2C%22lang%22%3A%22en%22%7D%2C%22uniqueHtmlName%22%3A%22vivid-metaphor-of-data-structures%22%2C%22blogProps%22%3A%7B%22createTime%22%3A%222019/01/17%2012%3A39%22%2C%22comment%22%3A%2215%22%7D%7D" }</script>
+    <script src="https://terry-su.github.io/BlogCDN/scripts/detail.bundle.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?cc6d133d9a7057a832c9b0dd0242546b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  </body>
+  </html>
+  

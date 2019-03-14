@@ -1,0 +1,72 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Gist - ES6 Proxy Blog All Technology Javascript ES6 javascript es6 INTRODUCTION Proxy is a frequently used pattern in both virtual world and real world. Those patterns(proxy, iterator and observer,etc) make coding more personably, as if we're building lots of maganificent skyscrapers with robust methods">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gist - ES6 Proxy (Terry Su Blog)</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  </head>
+  <body>
+    
+<div id="preRender" style="width:1px;height:1px;overflow:hidden;"></div>
+    <div id="markedHtml" style="display: none;"><h1 id="introduction">Introduction</h1>
+<p>&quot;Proxy&quot; is a frequently used pattern in both virtual world and real world. Those patterns(&quot;proxy&quot;, &quot;iterator&quot; and &quot;observer&quot;,etc) make coding more personably, as if we&#39;re building lots of maganificent skyscrapers with robust methods and tools.</p>
+<h1 id="basic-concept">Basic concept</h1>
+<h2 id="single-request">Single request</h2>
+<p><img src="https://sfault-image.b0.upaiyun.com/114/495/1144958509-596733a98f665_articlex" alt=""></p>
+<h2 id="interaction">Interaction</h2>
+<p><img src="https://sfault-image.b0.upaiyun.com/368/275/3682758150-596734870a989_articlex" alt=""></p>
+<h1 id="application-observer">Application - Observer</h1>
+<pre><code class="language-js">// Create an observer to detect the opening state of light
+const basicState = {
+    open: false
+}
+const lightState = new Proxy(basicState, {
+    set(obj, prop, value) {
+        if (prop === &#39;open&#39;) {
+            switch(value) {
+                case true: 
+                    console.log(&#39;Light on!&#39;)
+                    break
+                case false: 
+                    console.log(&#39;Light off!&#39;)
+            }
+        }
+
+        return true
+    }
+})
+
+
+// Turn on light
+lightState.open = true    // output: Light on!
+
+// Turn off light
+lightState.open = false    // output: Light off!</code></pre>
+<h1 id="grammar">Grammar</h1>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy</a></p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Try Proxy? Trust it at first</p>
+</div>
+    <div id="app"></div>
+  
+    
+    <script>window.GV={ dataString: "%7B%22name%22%3A%22Gist%20-%20ES6%20Proxy%22%2C%22createTime%22%3A%222017/07/13%2016%3A45%22%2C%22categorySequence%22%3A%5B%22All%22%2C%22Technology%22%2C%22Javascript%22%2C%22ES6%22%5D%2C%22tags%22%3A%5B%22javascript%22%2C%22es6%22%5D%2C%22config%22%3A%7B%22detail%22%3A%7B%22scripts%22%3A%5B%22%3Cscript%20src%3D%5C%22https%3A//terry-su.github.io/BlogCDN/scripts/detail.bundle.js%5C%22%3E%3C/script%3E%22%2C%22%5Cn%3Cscript%3E%5Cnvar%20_hmt%20%3D%20_hmt%20%7C%7C%20%5B%5D%3B%5Cn%28function%28%29%20%7B%5Cn%20%20var%20hm%20%3D%20document.createElement%28%5C%22script%5C%22%29%3B%5Cn%20%20hm.src%20%3D%20%5C%22https%3A//hm.baidu.com/hm.js%3Fcc6d133d9a7057a832c9b0dd0242546b%5C%22%3B%5Cn%20%20var%20s%20%3D%20document.getElementsByTagName%28%5C%22script%5C%22%29%5B0%5D%3B%20%5Cn%20%20s.parentNode.insertBefore%28hm%2C%20s%29%3B%5Cn%7D%29%28%29%3B%5Cn%3C/script%3E%5Cn%22%5D%2C%22slogan%22%3A%22Step%20by%20step%22%2C%22textLogo%22%3A%22TS%22%2C%22commentRoot%22%3A%22https%3A//api.github.com/repos/terry-su/tsblogcomments-en/issues/%22%2C%22commentPageRoot%22%3A%22https%3A//github.com/Terry-Su/TSBlogComments-En/issues/%22%2C%22home%22%3A%22/%22%2C%22bottomText%22%3A%22%3Cbr/%3EOK%2C%20that%27s%20all.%20It%27s%20my%20pleasure%20if%20this%20article%20helped%20you.%20And%20if%20you%20have%20any%20questions%20or%20advice%2C%20just%20make%20a%20comment%20at%20the%20bottom.%20Hope%20for%20your%20incisive%20insights.%22%2C%22mathCssUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css%22%2C%22mathJsUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.js%22%2C%22mermaidJsUrl%22%3A%22https%3A//terry-su.github.io/CDN/libraries/mermaid/mermaid.min.js%22%7D%2C%22lang%22%3A%22en%22%7D%2C%22uniqueHtmlName%22%3A%22gist-es6-proxy%22%2C%22blogProps%22%3A%7B%22createTime%22%3A%222017/07/13%2016%3A45%22%2C%22tags%22%3A%5B%22javascript%22%2C%22es6%22%5D%2C%22comment%22%3A%223%22%7D%7D" }</script>
+    <script src="https://terry-su.github.io/BlogCDN/scripts/detail.bundle.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?cc6d133d9a7057a832c9b0dd0242546b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  </body>
+  </html>
+  

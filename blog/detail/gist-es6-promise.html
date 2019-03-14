@@ -1,0 +1,97 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Gist - ES6 Promise Blog All Technology Javascript ES6 javascript es6 Promise is used to asynchronous computations. THE CONCEPT OF PROMISE INTRODUCTION Synchronize asynchronous methods is always a hot topic.Here, Promise is one way to achieve the goal. PROMISE MODEL BASIC PROMISE MODEL [https:sfault-image.b0.upaiyun.com513313513313002-5957789b7a642_articlex]">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gist - ES6 Promise (Terry Su Blog)</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  </head>
+  <body>
+    
+<div id="preRender" style="width:1px;height:1px;overflow:hidden;"></div>
+    <div id="markedHtml" style="display: none;"><p>Promise is used to <strong>asynchronous computations</strong>.</p>
+<h1 id="the-concept-of-promise">The concept of &quot;Promise&quot;</h1>
+<h1 id="introduction">Introduction</h1>
+<p>&quot;Synchronize asynchronous methods&quot; is always a hot topic.Here, &quot;Promise&quot; is one way to achieve the goal.</p>
+<h1 id="promise-model">Promise Model</h1>
+<h2 id="basic-promise-model">Basic Promise Model</h2>
+<p><img src="https://sfault-image.b0.upaiyun.com/513/313/513313002-5957789b7a642_articlex" alt="">   </p>
+<p>In javascript, it&#39;s like:</p>
+<pre><code class="language-js">// #1 Create a &quot;Promise&quot; object
+const testPromise = new Promise( (resolve, reject) =&gt; {
+  // resolve(&quot;parameters&quot;) or reject(&quot;parameters&quot;)
+  // example 1: setTimeout(resolve, 1000, &#39;parameters&#39;)
+  // example 2: setTimeout(reject, 1000, &#39;parameters&#39;)
+} )
+
+testPromise.then( value =&gt; {
+    // #2 Monitor the state of &quot;Promise&quot;, if state is &quot;fulfilled&quot;
+},  value =&gt; {
+    // #2 Monitor the state of &quot;Promise&quot;, if state is &quot;rejected&quot;
+})
+</code></pre>
+<h2 id="chaining-promise-model">Chaining promise model</h2>
+<p><img src="https://sfault-image.b0.upaiyun.com/707/453/707453890-595778c082448_articlex" alt="">  </p>
+<pre><code class="language-js">const testPromise = new Promise( (resolve, reject) =&gt; {
+  // set the state of &quot;Promise&quot; to &quot;fulfilled&quot;
+  resolve()
+} )
+
+testPromise
+    .then( value =&gt; {
+        // Continue to create &quot;Promise&quot;
+        return new Promise( (resolve, reject) =&gt; {
+            resolve()
+        } )
+    }, value =&gt; {
+    })
+    .then( value =&gt; {
+        // Continue to create &quot;Promise&quot;
+        return new Promise( (resolve, reject) =&gt; {
+        resolve(&#39;parameters&#39;)
+        } )
+    }, value =&gt; {
+    })
+    .then( value =&gt; {
+        console.log(value)  // output: &#39;paramaters&#39;
+    }, value =&gt; {
+    })</code></pre>
+<h1 id="grammar">Grammar</h1>
+<h3 id="initialize">Initialize</h3>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise constructor</a></p>
+<h3 id="chain">Chain</h3>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then">Promise.prototype.then()</a></p>
+<h3 id="catch-rejected-reason">Catch rejected reason</h3>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch">Promise.prototype.catch()</a></p>
+<h3 id="resolve-or-reject-parameters-directly">Resolve or reject parameters directly</h3>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/resolve">Promise.resolve()</a>
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/reject">Promise.reject()</a></p>
+<h3 id="queue">Queue</h3>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/all">Promise.all()</a></p>
+<h3 id="apply-fastest-promise">Apply fastest promise</h3>
+<p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/race">Promise.race</a></p>
+<h1 id="conclusion">Conclusion</h1>
+<p>There must be lots of ways to synchronize asynchronous methods, however, it&#39;s more convenient if a standard emerges so we can build robust program more easily.Obviously, promise is an ideal standard.</p>
+</div>
+    <div id="app"></div>
+  
+    
+    <script>window.GV={ dataString: "%7B%22name%22%3A%22Gist%20-%20ES6%20Promise%22%2C%22createTime%22%3A%222017/07/01%2018%3A24%22%2C%22categorySequence%22%3A%5B%22All%22%2C%22Technology%22%2C%22Javascript%22%2C%22ES6%22%5D%2C%22tags%22%3A%5B%22javascript%22%2C%22es6%22%5D%2C%22config%22%3A%7B%22detail%22%3A%7B%22scripts%22%3A%5B%22%3Cscript%20src%3D%5C%22https%3A//terry-su.github.io/BlogCDN/scripts/detail.bundle.js%5C%22%3E%3C/script%3E%22%2C%22%5Cn%3Cscript%3E%5Cnvar%20_hmt%20%3D%20_hmt%20%7C%7C%20%5B%5D%3B%5Cn%28function%28%29%20%7B%5Cn%20%20var%20hm%20%3D%20document.createElement%28%5C%22script%5C%22%29%3B%5Cn%20%20hm.src%20%3D%20%5C%22https%3A//hm.baidu.com/hm.js%3Fcc6d133d9a7057a832c9b0dd0242546b%5C%22%3B%5Cn%20%20var%20s%20%3D%20document.getElementsByTagName%28%5C%22script%5C%22%29%5B0%5D%3B%20%5Cn%20%20s.parentNode.insertBefore%28hm%2C%20s%29%3B%5Cn%7D%29%28%29%3B%5Cn%3C/script%3E%5Cn%22%5D%2C%22slogan%22%3A%22Step%20by%20step%22%2C%22textLogo%22%3A%22TS%22%2C%22commentRoot%22%3A%22https%3A//api.github.com/repos/terry-su/tsblogcomments-en/issues/%22%2C%22commentPageRoot%22%3A%22https%3A//github.com/Terry-Su/TSBlogComments-En/issues/%22%2C%22home%22%3A%22/%22%2C%22bottomText%22%3A%22%3Cbr/%3EOK%2C%20that%27s%20all.%20It%27s%20my%20pleasure%20if%20this%20article%20helped%20you.%20And%20if%20you%20have%20any%20questions%20or%20advice%2C%20just%20make%20a%20comment%20at%20the%20bottom.%20Hope%20for%20your%20incisive%20insights.%22%2C%22mathCssUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css%22%2C%22mathJsUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.js%22%2C%22mermaidJsUrl%22%3A%22https%3A//terry-su.github.io/CDN/libraries/mermaid/mermaid.min.js%22%7D%2C%22lang%22%3A%22en%22%7D%2C%22uniqueHtmlName%22%3A%22gist-es6-promise%22%2C%22blogProps%22%3A%7B%22createTime%22%3A%222017/07/01%2018%3A24%22%2C%22tags%22%3A%5B%22javascript%22%2C%22es6%22%5D%2C%22comment%22%3A%222%22%7D%7D" }</script>
+    <script src="https://terry-su.github.io/BlogCDN/scripts/detail.bundle.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?cc6d133d9a7057a832c9b0dd0242546b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  </body>
+  </html>
+  

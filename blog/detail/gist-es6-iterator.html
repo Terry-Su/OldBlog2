@@ -1,0 +1,186 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Gist - ES6 Iterator Blog All Technology Javascript ES6 javascript es6 INTRODUCTION Iterator is one of the most common design modes in daily development. Let's explore the iterator continent in the javacript world, here we go! GIST ITERATOR MODE It's the basic iterator mode concept: [https:sfault-image.b0.upaiyun.com3134153134156573-59538bf9ed814_articlex]">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gist - ES6 Iterator (Terry Su Blog)</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  </head>
+  <body>
+    
+<div id="preRender" style="width:1px;height:1px;overflow:hidden;"></div>
+    <div id="markedHtml" style="display: none;"><h1 id="introduction">Introduction</h1>
+<p>Iterator is one of the most common design modes in daily development. Let&#39;s explore the iterator continent in the javacript world, here we go!</p>
+<h1 id="gist-iterator-mode">Gist Iterator Mode</h1>
+<p>It&#39;s the basic iterator mode concept:<br><img src="https://sfault-image.b0.upaiyun.com/313/415/3134156573-59538bf9ed814_articlex" alt=""><br>And it&#39;s like this in javascript world:<br><img src="https://sfault-image.b0.upaiyun.com/590/033/590033887-59538bd8a3857_articlex" alt="">    </p>
+<h1 id="grammar-rules">Grammar rules</h1>
+<h2 id="attention">Attention</h2>
+<p>Assume that &quot;iterable&quot; is an adjective, and &quot;iterableFn&quot; is a iterable.<br>It&#39;s a little confusing when lots of &quot;iterable&quot; appear at the same time.</p>
+<h2 id="relation-between-iterable-and-iterator">Relation between iterable and iterator</h2>
+<p>Iterator can be created by iterableFn(an iterable), iterableFn belongs to iterable sources.</p>
+<h2 id="iterables">Iterables</h2>
+<h3 id="iterable-sources">Iterable sources</h3>
+<ul>
+<li>Array</li>
+<li>String</li>
+<li>Map</li>
+<li>Set</li>
+<li>Dom Elements</li>
+<li>Arguments</li>
+</ul>
+<h3 id="get-iterablefn-used-to-generate-iterator-">Get iterableFn(used to generate iterator)</h3>
+<p>IterableFn can be derived from iterable source by its property: Symbol.iterator, for example: <code>const iterableFn = [][Symbol.iterator]</code></p>
+<blockquote>
+<p><strong>Symbol.iterator</strong>
+A method that returns the default Iterator for an object. Called by the semantics of the for-of statement.</p>
+</blockquote>
+<pre><code class="language-js">/** Test in chrome 55  **/
+// Array
+console.log( [][Symbol.iterator] )    // function values() { [native code] }
+
+// String
+console.log( &#39;&#39;[Symbol.iterator] )    // function [Symbol.iterator]() { [native code] }
+
+// Map
+console.log( new Map([[]])[Symbol.iterator] )    // function entries() { [native code] }
+
+// Set
+console.log( new Set([])[Symbol.iterator] )    // function values() { [native code] }
+
+// Dom elements
+console.log( document.getElementsByTagName(&#39;body&#39;)[Symbol.iterator] )    // function values() { [native code] }
+
+// arguments
+function test() {
+    console.log( arguments[Symbol.iterator] )
+}
+test(1, 2, 3)    // // function values() { [native code] }</code></pre>
+<h3 id="iterable-sources-consumers">Iterable sources&#39; consumers</h3>
+<p>Follow consumers&#39; implementations mainly depend on iterables.Howerver, the examples are irrelevant to topic.</p>
+<ul>
+<li>for of<pre><code class="language-js">for(const i in [1, 2]) {
+  cosnole.log(i)
+}     
+  // 1
+  // 2</code></pre>
+</li>
+<li>...(The spread opeartor)<pre><code class="language-js">console.log( [...&quot;ab&quot;] )     // [&quot;a&quot;, &quot;b&quot;]</code></pre>
+</li>
+<li>Array.from<pre><code class="language-js">console.log( Array.from(&quot;ab&quot;) )    // [&quot;a&quot;, &quot;b&quot;]</code></pre>
+</li>
+</ul>
+<h2 id="iterators">Iterators</h2>
+<p>Iterator is common used, as to decouple algorithms.</p>
+<h3 id="iterator-iterablefn-">Iterator = iterableFn()</h3>
+<p>After iterable&#39;s implementation, it returns an object called iterator, which uses &quot;next&quot; method to iterate.</p>
+<pre><code class="language-js">/** Test in chrome 55  **/
+// Array
+console.log( [][Symbol.iterator]() )    // ArrayIterator {}
+
+// String
+console.log( &#39;&#39;[Symbol.iterator]() )    //  StringIterator {}
+
+// Map
+console.log( new Map([[]])[Symbol.iterator]() )    // MapIterator {[undefined, undefined]}
+
+// Set
+console.log( new Set([])[Symbol.iterator]() )    // SetIterator {}
+
+// Dom elements
+console.log( document.getElementsByTagName(&#39;body&#39;)[Symbol.iterator]() )    // ArrayIterator {}
+
+// arguments
+function test() {
+    console.log( arguments[Symbol.iterator]() )
+}
+test(1, 2, 3)    // ArrayIterator {}</code></pre>
+<p>Add value and Implement method &quot;next&quot;:</p>
+<pre><code class="language-js">/** Test in chrome 55  **/
+// Array
+console.log( [1, 2][Symbol.iterator]().next() )    // {value: 1, done: false}
+
+// String
+console.log( &#39;ab&#39;[Symbol.iterator]().next() )    //  {value: &#39;a&#39;, done: false}
+
+// Map
+console.log( new Map([[1, &#39;a&#39;]])[Symbol.iterator]().next() )    // {value: [1, &#39;a&#39;], done: false}
+
+// Set
+console.log( new Set([1, 1, 2])[Symbol.iterator]().next() )    // {value1: , done: false}
+
+// Dom elements
+console.log( document.getElementsByTagName(&#39;body&#39;)[Symbol.iterator]().next() )    // {value: body(dom), done: false}
+
+// arguments
+function test() {
+    console.log( arguments[Symbol.iterator]().next() )
+}
+test(1, 2, 3)    // {value: 1, done: false}</code></pre>
+<h3 id="iterator-generator-">Iterator = generator()</h3>
+<p>Setting iterator mutually again and again seems inefficient, syntactic sugar is needed. Fortunately, ES6 provides the useful &quot;generater&quot;</p>
+<pre><code class="language-js">function* iteratorMaker() {
+    yield 1
+    yield 2
+}
+
+const iterator =  iteratorMaker()
+
+console.log( iterator )    // iteratorMaker {[[GeneratorStatus]]: &quot;suspended&quot;, [[GeneratorReceiver]]: Window, [[GeneratorLocation]]: Object}
+
+console.log( iterator.next() )    // {value: 1, done: false}
+
+console.log( iterator.next() )    // {value: 2, done: false}
+
+console.log( iterator.next() )    // {value: undefined, done: true}</code></pre>
+<h1 id="application">Application</h1>
+<p>Iterator can be applied in wide situations, there&#39;s a sample to generate increasing id numbers.</p>
+<pre><code class="language-js">function* idIteratorMaker() {
+    let id = 0
+    while (true) {
+        yield id++
+    }
+}
+
+function create(idIterator) {
+    return idIterator.next().value
+}
+
+const idIterator = idIteratorMaker()
+
+const a = create(idIterator)
+const b = create(idIterator)
+const c = create(idIterator)
+
+console.log(a)     // 0
+console.log(b)     // 1
+console.log(c)     // 2</code></pre>
+<h1 id="conclusion">Conclusion</h1>
+<p>Obviously, iterator makes codes more readable and matainable.  </p>
+<h1 id="reference">Reference</h1>
+<ol>
+<li><a href="http://exploringjs.com/es6/ch_iteration.html#sec_iterating-language-constructs">http://exploringjs.com/es6/ch_iteration.html#sec_iterating-language-constructs</a>  </li>
+<li><a href="https://tc39.github.io/ecma262/#table-1">https://tc39.github.io/ecma262/#table-1</a></li>
+</ol>
+</div>
+    <div id="app"></div>
+  
+    
+    <script>window.GV={ dataString: "%7B%22name%22%3A%22Gist%20-%20ES6%20Iterator%22%2C%22createTime%22%3A%222017/07/01%2014%3A57%22%2C%22categorySequence%22%3A%5B%22All%22%2C%22Technology%22%2C%22Javascript%22%2C%22ES6%22%5D%2C%22tags%22%3A%5B%22javascript%22%2C%22es6%22%5D%2C%22config%22%3A%7B%22detail%22%3A%7B%22scripts%22%3A%5B%22%3Cscript%20src%3D%5C%22https%3A//terry-su.github.io/BlogCDN/scripts/detail.bundle.js%5C%22%3E%3C/script%3E%22%2C%22%5Cn%3Cscript%3E%5Cnvar%20_hmt%20%3D%20_hmt%20%7C%7C%20%5B%5D%3B%5Cn%28function%28%29%20%7B%5Cn%20%20var%20hm%20%3D%20document.createElement%28%5C%22script%5C%22%29%3B%5Cn%20%20hm.src%20%3D%20%5C%22https%3A//hm.baidu.com/hm.js%3Fcc6d133d9a7057a832c9b0dd0242546b%5C%22%3B%5Cn%20%20var%20s%20%3D%20document.getElementsByTagName%28%5C%22script%5C%22%29%5B0%5D%3B%20%5Cn%20%20s.parentNode.insertBefore%28hm%2C%20s%29%3B%5Cn%7D%29%28%29%3B%5Cn%3C/script%3E%5Cn%22%5D%2C%22slogan%22%3A%22Step%20by%20step%22%2C%22textLogo%22%3A%22TS%22%2C%22commentRoot%22%3A%22https%3A//api.github.com/repos/terry-su/tsblogcomments-en/issues/%22%2C%22commentPageRoot%22%3A%22https%3A//github.com/Terry-Su/TSBlogComments-En/issues/%22%2C%22home%22%3A%22/%22%2C%22bottomText%22%3A%22%3Cbr/%3EOK%2C%20that%27s%20all.%20It%27s%20my%20pleasure%20if%20this%20article%20helped%20you.%20And%20if%20you%20have%20any%20questions%20or%20advice%2C%20just%20make%20a%20comment%20at%20the%20bottom.%20Hope%20for%20your%20incisive%20insights.%22%2C%22mathCssUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css%22%2C%22mathJsUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.js%22%2C%22mermaidJsUrl%22%3A%22https%3A//terry-su.github.io/CDN/libraries/mermaid/mermaid.min.js%22%7D%2C%22lang%22%3A%22en%22%7D%2C%22uniqueHtmlName%22%3A%22gist-es6-iterator%22%2C%22blogProps%22%3A%7B%22createTime%22%3A%222017/07/01%2014%3A57%22%2C%22tags%22%3A%5B%22javascript%22%2C%22es6%22%5D%2C%22comment%22%3A%221%22%7D%7D" }</script>
+    <script src="https://terry-su.github.io/BlogCDN/scripts/detail.bundle.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?cc6d133d9a7057a832c9b0dd0242546b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  </body>
+  </html>
+  

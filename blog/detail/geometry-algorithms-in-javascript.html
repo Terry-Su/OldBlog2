@@ -1,0 +1,212 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Geometry Algorithm in Javascript Blog All Technology Javascript Topic geometry javascript Recently, I've been learning geo algorithms for developing a geometry library. However, I found that the materials of 2d geometry algorithms on the internet ara complicated and messy since I only want to find several">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Geometry Algorithm in Javascript (Terry Su Blog)</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  </head>
+  <body>
+    
+<div id="preRender" style="width:1px;height:1px;overflow:hidden;"></div>
+    <div id="markedHtml" style="display: none;"><p>Recently, I&#39;ve been learning geo algorithms for developing a geometry library. However, I found that the materials of 2d geometry algorithms on the internet ara <strong>complicated</strong> and <strong>messy</strong> since I only want to find several basic and commonly used algorithms. Here, I will try my best to make 2d geometry algorithms below <strong>easy</strong> to be understood and used. </p>
+<p>By the way, you may not be necessary to read this article paragraph by paragraph, you can just read any topic which you prefer. Here we go!</p>
+<h3 id="transformation">Transformation</h3>
+<h5 id="translation">Translation</h5>
+<p><img src="https://www.tutorialspoint.com/computer_graphics/images/translation.jpg" alt="Image"><br>Suppose we move point&#39;s position from <code>(x, y)</code> to <code>(x&#39;, y&#39;)</code>:</p>
+<pre><code class="language-math">x &#39; = x + t _ x</code></pre>
+<pre><code class="language-math">y &#39; = y + t _ y</code></pre>
+<h5 id="scale">Scale</h5>
+<p><img src="https://www.tutorialspoint.com/computer_graphics/images/before_scaling.jpg" alt="Image"><br><img src="https://www.tutorialspoint.com/computer_graphics/images/after_scaling.jpg" alt="Image"><br>Suppose we scale the <code>x</code> of point by <code>sx</code> times and the <code>y</code> of point by <code>sy</code> times, then:</p>
+<pre><code class="language-math">x &#39; = s _ x * x</code></pre>
+<pre><code class="language-math">y &#39; = s _ y * y</code></pre>
+<blockquote>
+<p><strong>Scale point based on a center point <code>(xc, yc)</code></strong></p>
+<pre><code class="language-math">x &#39; = s _ x * x - ( s _ x * x _ c - x _ c )</code></pre>
+<pre><code class="language-math">y &#39; = s _ y * y - ( s _ y * y _ c - y _ c )</code></pre>
+</blockquote>
+<h5 id="rotation">Rotation</h5>
+<p><img src="https://www.tutorialspoint.com/computer_graphics/images/rotation.jpg" alt="Image"><br>Suppose we rotate <code>OP</code> to <code>OP&#39;</code>.<br>Because:</p>
+<pre><code class="language-math">x = r \cdot cos \varphi</code></pre>
+<pre><code class="language-math">y = r \cdot sin \varphi</code></pre>
+<p>Then:</p>
+<pre><code class="language-math">x&#39; = r \cdot cos ( \varphi + \theta ) = r \cdot ( cos \varphi \cdot cos \theta - sin \varphi \cdot sin \theta ) = x \cdot cos \theta - y \cdot sin \theta</code></pre>
+<pre><code class="language-math">y&#39; = r \cdot sin ( \varphi + \theta ) = r \cdot ( sin \varphi \cdot cos \theta + cos \varphi \cdot sin \theta ) = x \cdot sin \theta + y \cdot cos \theta</code></pre>
+<blockquote>
+<p><strong>Rotate point based on a center point <code>(xc, yc)</code></strong></p>
+<pre><code class="language-math">x&#39; =  x \cdot cos \theta - y \cdot sin \theta + xc</code></pre>
+<pre><code class="language-math">y&#39; = x \cdot sin \theta + y \cdot cos \theta + yc</code></pre>
+</blockquote>
+<h3 id="point-in-polygon">Point in polygon</h3>
+<p>In fact, there&#39;re two well-known &quot;point in polygon&quot; algorithms: <strong>winding number</strong> and <strong>crossing number</strong>, however, I will only talk about <strong>winding number</strong>, here are reasons:</p>
+<table>
+<thead>
+<tr>
+<th>/</th>
+<th>Rule</th>
+<th>Suitable Scene</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Winding</strong> number</td>
+<td><a href="https://en.wikipedia.org/wiki/Nonzero-rule">Nonezero-rule</a></td>
+<td>All polygons</td>
+</tr>
+<tr>
+<td>Crossing Number</td>
+<td><a href="https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule">Even-odd rule</a></td>
+<td>Polygons with simple curves</td>
+</tr>
+</tbody></table>
+<p>As we can see above, <strong>crossing number</strong> is not suitable for all polygons.</p>
+<h5 id="winding-number">Winding number</h5>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/8/8f/Winding_Number_Around_Point.svg" alt="Image"><br>Draw an <strong>infinite ray</strong> from <code>P</code> crossing polygon, then count each <strong>vertex</strong>, here&#39;s the key: suppose we start at any point on polygon path and end at the same point to draw polygon <strong>counterclockwise</strong>, if the <code>vector</code> intersected the <strong>special vertex</strong>(intersected by infinite ray and polygon) is <strong>upward</strong>, <code>wn</code> <strong>adds <code>1</code></strong>, otherwise if the track intersected vertex is <strong>downward</strong>, <code>wn</code> <strong>subtracts <code>1</code></strong>. If the <code>wn</code> of <code>P</code> is not <code>0</code>, then <code>P</code> is <strong>inside</strong> of polygon, otherwise <code>P</code> is <strong>outside</strong>.<br>Main javascript(typescript) <strong>codes</strong>(If you want to see whole detail code, visit <a href="https://github.com/Terry-Su/Geometry-Algorithm/blob/master/src/core/calcPointInPolygon.ts">here</a>):</p>
+<pre><code class="language-ts">/**
+ * Check if point P is inside of polygon with winding number algorithm
+ * Algorithm: http://geomalgorithms.com/a03-_inclusion.html
+ * @param {Point2D} P point P
+ * @param {Point2D[]} polygonVertices vertices of polygon path in clockwise or counterclockwise order
+ */
+function pointInPolygonWindingNumber(
+  P: Point2D,
+  polygonVertices: Point2D[]
+) {
+  /**
+   * Winding nunebr
+   */
+  let wn = 0
+
+  const points: Point2D[] = polygonVertices
+
+  for ( let i: number = 0; i &lt; points.length - 1; i++ ) {
+    const V0: Point2D = points[ i ]
+    const V1: Point2D = points[ i + 1 ]
+
+    const { x: x0, y: y0 }: Point2D = V0
+    const { x: x1, y: y1 }: Point2D = V1
+    const { x: xp, y: yp }: Point2D = P
+
+    /**
+     * Upward
+     */
+    if ( y0 &lt;= yp &amp;&amp; y1 &gt; yp &amp;&amp; isLeft( V0, V1, P ) ) {
+      wn = wn + 1
+    }
+    /**
+     * Downward
+     */
+    if ( y0 &gt; yp &amp;&amp; y1 &lt;= yp &amp;&amp; isRight( V0, V1, P ) ) {
+      wn = wn - 1
+    }
+  }
+
+  const pointOnPolygonPath: boolean = isPointOnPolygonPath( P, points )
+  const res: boolean = pointOnPolygonPath || wn !== 0
+
+  return res
+}</code></pre>
+<h3 id="matrix">Matrix</h3>
+<p>I&#39;m curious about matrices too, not only when learning geometry algorithms. Matrix, which like an magician, transforms geometry with its particular formula.</p>
+<h5 id="translation">Translation</h5>
+<pre><code class="language-math">\begin{bmatrix}
+   x&#39; \\
+   y&#39;
+\end{bmatrix}
+=
+\begin{bmatrix}
+   x \\
+   y
+\end{bmatrix}
++
+\begin{bmatrix}
+   tx \\
+   ty
+\end{bmatrix}</code></pre>
+<h5 id="scale">Scale</h5>
+<pre><code class="language-math">\begin{bmatrix}
+   x&#39; \\
+   y&#39;
+\end{bmatrix}
+=
+\begin{bmatrix}
+   S _ x &amp; 0 \\
+   0 &amp; S _ y
+\end{bmatrix}
+\begin{bmatrix}
+   x \\
+   y
+\end{bmatrix}</code></pre>
+<h5 id="rotation">Rotation</h5>
+<pre><code class="language-math">\begin{bmatrix}
+   x&#39; \\
+   y&#39;
+\end{bmatrix}
+=
+\begin{bmatrix}
+  cos \theta &amp; -sin \theta \\
+  sin \theta &amp; cos \theta
+\end{bmatrix}
+\begin{bmatrix}
+   x \\
+   y
+\end{bmatrix}</code></pre>
+<h3 id="formulas">Formulas</h3>
+<p>There are plenty of geometry algorithms, however, I only list several alogorithms which are <strong>frequently used</strong> above. Maybe, I say maybe, I will add new algorithms in this blog if I find new commonly used algorithm in the future. 
+Nevertheless, I&#39;ll still list some <strong>practical</strong> formulas which can be used for geometry calculation.</p>
+<h5 id="the-cosine-law">The Cosine Law</h5>
+<p>Suppose there are vector v and w</p>
+<pre><code class="language-math">| v \pm w | ^ 2 = | v | ^ 2 \pm 2 | v | | w | cos( \theta ) + | w | ^ 2</code></pre>
+<h5 id="the-dot-product">The Dot Product</h5>
+<p>One vector multiply the other vector:</p>
+<pre><code class="language-math">v \cdot w = | v | | w | cos ( \theta )</code></pre>
+<h5 id="the-2d-perp-product">The 2D Perp Product</h5>
+<pre><code class="language-math">v \perp w = | v | | w | sin ( \theta )</code></pre>
+<h5 id="computing-area">Computing area</h5>
+<ul>
+<li><p>Parallelogram</p>
+<pre><code class="language-math">A ( \Box ) = | v \perp w | </code></pre>
+<pre><code class="language-math">  = |v| |w| sin( \theta )</code></pre>
+</li>
+<li><p>Triangles</p>
+<pre><code class="language-math">A ( \vartriangle ) = | v \perp w | / 2t</code></pre>
+<pre><code class="language-math">  = |v| |w| sin( \theta ) / 2</code></pre>
+</li>
+</ul>
+<h5 id="lines-formula">Lines formula</h5>
+<ul>
+<li><p>Type-Parametric</p>
+<pre><code class="language-math">P(t) = P _ 0 + t v _ L </code></pre>
+</li>
+<li><p>Line equations</p>
+<pre><code class="language-math">P ( t ) = P _ 0 + t v _ L </code></pre>
+<pre><code class="language-math">  = P _ 0 + t ( P _ 1 - P _ 0 )</code></pre>
+<pre><code class="language-math">  = ( 1 - t ) P _ 0 + t P _ 1</code></pre>
+<pre><code class="language-math">  = ( x _ 0 + t cos \theta , y _ 0 + t sin \theta ) </code></pre>
+</li>
+</ul>
+<p>It&#39;s easy to learn and use a geometry library, however, it&#39;s <strong>limited</strong> when we want to build a <strong>large</strong> or complex even just <strong>a little complex project</strong>. Grasping geometry algorithms will make it possible for us to create <strong>flexible</strong> and <strong>large</strong> geometry projects.</p>
+<h3 id="reference">Reference</h3>
+<p>[0] <strong>Transformation:</strong> <a href="https://www.tutorialspoint.com/computer_graphics/2d_transformation.htm">https://www.tutorialspoint.com/computer_graphics/2d_transformation.htm</a><br>[1] <strong>Point in polygon1:</strong> <a href="https://en.wikipedia.org/wiki/Point_in_polygon">https://en.wikipedia.org/wiki/Point_in_polygon</a><br>[2] <strong>Point in polygon2:</strong> <a href="http://geomalgorithms.com/a03-_inclusion.html">http://geomalgorithms.com/a03-_inclusion.html</a><br>[3] <strong>Nonezero-rule:</strong> <a href="https://en.wikipedia.org/wiki/Nonzero-rule">https://en.wikipedia.org/wiki/Nonzero-rule</a><br>[4] <strong>Even-odd rule:</strong> <a href="https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule">https://en.wikipedia.org/wiki/Even%E2%80%93odd_rule</a><br>[5] <strong>Computing area:</strong> <a href="http://geomalgorithms.com/a01-_area.html">http://geomalgorithms.com/a01-_area.html</a><br>[6] <strong>Line formula:</strong> <a href="http://geomalgorithms.com/a02-_lines.html">http://geomalgorithms.com/a02-_lines.html</a>  </p>
+</div>
+    <div id="app"></div>
+  
+    
+    <script>window.GV={ dataString: "%7B%22name%22%3A%22Geometry%20Algorithm%20in%20Javascript%22%2C%22createTime%22%3A%222018/02/12%2010%3A07%22%2C%22categorySequence%22%3A%5B%22All%22%2C%22Technology%22%2C%22Javascript%22%2C%22Topic%22%5D%2C%22tags%22%3A%5B%22geometry%22%2C%22javascript%22%5D%2C%22config%22%3A%7B%22detail%22%3A%7B%22scripts%22%3A%5B%22%3Cscript%20src%3D%5C%22https%3A//terry-su.github.io/BlogCDN/scripts/detail.bundle.js%5C%22%3E%3C/script%3E%22%2C%22%5Cn%3Cscript%3E%5Cnvar%20_hmt%20%3D%20_hmt%20%7C%7C%20%5B%5D%3B%5Cn%28function%28%29%20%7B%5Cn%20%20var%20hm%20%3D%20document.createElement%28%5C%22script%5C%22%29%3B%5Cn%20%20hm.src%20%3D%20%5C%22https%3A//hm.baidu.com/hm.js%3Fcc6d133d9a7057a832c9b0dd0242546b%5C%22%3B%5Cn%20%20var%20s%20%3D%20document.getElementsByTagName%28%5C%22script%5C%22%29%5B0%5D%3B%20%5Cn%20%20s.parentNode.insertBefore%28hm%2C%20s%29%3B%5Cn%7D%29%28%29%3B%5Cn%3C/script%3E%5Cn%22%5D%2C%22slogan%22%3A%22Step%20by%20step%22%2C%22textLogo%22%3A%22TS%22%2C%22commentRoot%22%3A%22https%3A//api.github.com/repos/terry-su/tsblogcomments-en/issues/%22%2C%22commentPageRoot%22%3A%22https%3A//github.com/Terry-Su/TSBlogComments-En/issues/%22%2C%22home%22%3A%22/%22%2C%22bottomText%22%3A%22%3Cbr/%3EOK%2C%20that%27s%20all.%20It%27s%20my%20pleasure%20if%20this%20article%20helped%20you.%20And%20if%20you%20have%20any%20questions%20or%20advice%2C%20just%20make%20a%20comment%20at%20the%20bottom.%20Hope%20for%20your%20incisive%20insights.%22%2C%22mathCssUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css%22%2C%22mathJsUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.js%22%2C%22mermaidJsUrl%22%3A%22https%3A//terry-su.github.io/CDN/libraries/mermaid/mermaid.min.js%22%7D%2C%22lang%22%3A%22en%22%7D%2C%22uniqueHtmlName%22%3A%22geometry-algorithms-in-javascript%22%2C%22blogProps%22%3A%7B%22createTime%22%3A%222018/02/12%2010%3A07%22%2C%22tags%22%3A%5B%22geometry%22%2C%22javascript%22%5D%2C%22comment%22%3A%225%22%7D%7D" }</script>
+    <script src="https://terry-su.github.io/BlogCDN/scripts/detail.bundle.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?cc6d133d9a7057a832c9b0dd0242546b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  </body>
+  </html>
+  

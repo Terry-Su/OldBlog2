@@ -1,0 +1,75 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Margin Collapsing in CSS Blog All Technology CSS css WHAT IS MARGIN COLLAPSING? Margin collapsing, only for top and bottom margins, is a behavior that margins of blocks are collapsed(combined). Normally, collapsed margin's size is the largest of margins being collapsed. There're three cases: 1. Adjacent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Margin Collapsing in CSS (Terry Su Blog)</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  </head>
+  <body>
+    
+<div id="preRender" style="width:1px;height:1px;overflow:hidden;"></div>
+    <div id="markedHtml" style="display: none;"><h1 id="what-is-margin-collapsing-">What is margin collapsing?</h1>
+<p>Margin collapsing, only for <strong>top</strong> and <strong>bottom</strong> margins, is a behavior that margins of <strong>blocks</strong> are collapsed(combined).
+Normally, collapsed margin&#39;s size is the largest of margins being collapsed.
+There&#39;re three cases:</p>
+<ol>
+<li>Adjacent sibling</li>
+</ol>
+<iframe src="https://terry-su.github.io/BlogCDN/iframes/css/margin-collapsing/adajacent/index.html?mode=css" ></iframe>
+
+
+<ol start="2">
+<li>Parent and first/last child</li>
+</ol>
+<iframe src="https://terry-su.github.io/BlogCDN/iframes/css/margin-collapsing/parent-and-first-child/index.html?mode=css" ></iframe>
+
+
+<ol start="3">
+<li>Empty blocks</li>
+</ol>
+<iframe src="https://terry-su.github.io/BlogCDN/iframes/css/margin-collapsing/empty-block/index.html?mode=css" ></iframe>
+
+
+
+<h1 id="why-margin-collpasing-">Why margin collpasing?</h1>
+<p>But why does CSS have such a strange behavior?  </p>
+<p>MDN says only that margins would be shared between boxes when margin collaspsing occurs:</p>
+<blockquote>
+<p> When margin collapsing occurs, the margin area is not clearly defined since margins are shared between boxes.</p>
+</blockquote>
+<p>But why should margins be shared? So I keep searching, and find a resonable explanation. </p>
+<p>Suppose that you had several paragraph(<code>&lt;p/&gt;</code>) to set vertical margins.</p>
+<p>If margins didn&#39;t collapse, they worked like padding(only for positioning part), right? So, here you used padding to mock margin.   </p>
+<p>If you set both <code>padding-top:10px;</code> and <code>padding-bottom:10px;</code> to paragraphs, you would find a problem: most gaps were <code>20px</code>, but the most top gap and the most bottom were <code>10px</code>.</p>
+<iframe src="https://terry-su.github.io/BlogCDN/iframes/css/margin-collapsing/example-negative/index.html?mode=css" ></iframe>
+
+
+<p>What would happen if margins collapse? It turned out all gaps were <code>10px</code>.</p>
+<iframe src="https://terry-su.github.io/BlogCDN/iframes/css/margin-collapsing/example-positive/index.html?mode=css" ></iframe>
+
+
+<p>From example above, margin collpasing does solve some common vertical margin problems and this can be the reason why margin collpases.</p>
+</div>
+    <div id="app"></div>
+  
+    
+    <script>window.GV={ dataString: "%7B%22name%22%3A%22Margin%20Collapsing%20in%20CSS%22%2C%22createTime%22%3A%222018/7/17%2017%3A05%22%2C%22categorySequence%22%3A%5B%22All%22%2C%22Technology%22%2C%22CSS%22%5D%2C%22tags%22%3A%5B%22css%22%5D%2C%22config%22%3A%7B%22detail%22%3A%7B%22scripts%22%3A%5B%22%3Cscript%20src%3D%5C%22https%3A//terry-su.github.io/BlogCDN/scripts/detail.bundle.js%5C%22%3E%3C/script%3E%22%2C%22%5Cn%3Cscript%3E%5Cnvar%20_hmt%20%3D%20_hmt%20%7C%7C%20%5B%5D%3B%5Cn%28function%28%29%20%7B%5Cn%20%20var%20hm%20%3D%20document.createElement%28%5C%22script%5C%22%29%3B%5Cn%20%20hm.src%20%3D%20%5C%22https%3A//hm.baidu.com/hm.js%3Fcc6d133d9a7057a832c9b0dd0242546b%5C%22%3B%5Cn%20%20var%20s%20%3D%20document.getElementsByTagName%28%5C%22script%5C%22%29%5B0%5D%3B%20%5Cn%20%20s.parentNode.insertBefore%28hm%2C%20s%29%3B%5Cn%7D%29%28%29%3B%5Cn%3C/script%3E%5Cn%22%5D%2C%22slogan%22%3A%22Step%20by%20step%22%2C%22textLogo%22%3A%22TS%22%2C%22commentRoot%22%3A%22https%3A//api.github.com/repos/terry-su/tsblogcomments-en/issues/%22%2C%22commentPageRoot%22%3A%22https%3A//github.com/Terry-Su/TSBlogComments-En/issues/%22%2C%22home%22%3A%22/%22%2C%22bottomText%22%3A%22%3Cbr/%3EOK%2C%20that%27s%20all.%20It%27s%20my%20pleasure%20if%20this%20article%20helped%20you.%20And%20if%20you%20have%20any%20questions%20or%20advice%2C%20just%20make%20a%20comment%20at%20the%20bottom.%20Hope%20for%20your%20incisive%20insights.%22%2C%22mathCssUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css%22%2C%22mathJsUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.js%22%2C%22mermaidJsUrl%22%3A%22https%3A//terry-su.github.io/CDN/libraries/mermaid/mermaid.min.js%22%7D%2C%22lang%22%3A%22en%22%7D%2C%22uniqueHtmlName%22%3A%22margin-collapsing-in-css%22%2C%22blogProps%22%3A%7B%22createTime%22%3A%222018/7/17%2017%3A05%22%2C%22tags%22%3A%5B%22css%22%5D%2C%22comment%22%3A%227%22%7D%7D" }</script>
+    <script src="https://terry-su.github.io/BlogCDN/scripts/detail.bundle.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?cc6d133d9a7057a832c9b0dd0242546b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  </body>
+  </html>
+  

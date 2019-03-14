@@ -1,0 +1,36 @@
+{
+  "name": "terry-su-blog",
+  "version": "1.0.0",
+  "description": "Terry Su Blog",
+  "main": "index.js",
+  "scripts": {
+    "start": "npm run cn | npm run en2",
+    "en": "ts-node scripts/enBuild",
+    "en2": "WATCH=1 ts-node scripts/enBuild | ts-node scripts/server",
+    "cn": "ts-node scripts/cnBuild",
+    "cn2": "WATCH=1 ts-node scripts/cnBuild | ts-node scripts/server",
+    "both": "ts-node scripts/enBuild | ts-node scripts/cnBuild",
+    "both2": "WATCH=1 ts-node scripts/enBuild | WATCH=1 ts-node scripts/cnBuild | ts-node scripts/server",
+    "server": "ts-node scripts/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Terry-Su/Terry-Su.github.io.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Terry-Su/Terry-Su.github.io/issues"
+  },
+  "homepage": "https://github.com/Terry-Su/Terry-Su.github.io#readme",
+  "devDependencies": {
+    "@types/node": "^10.5.2",
+    "browser-sync": "^2.24.4",
+    "eslint": "^5.6.0",
+    "gulp": "^3.9.1",
+    "ts-node": "^7.0.0",
+    "typescript": "^2.9.2",
+    "typescript-eslint-parser": "^18.0.0"
+  }
+}

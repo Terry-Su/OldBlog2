@@ -1,0 +1,114 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Demonstrate Sorting Algorithms with Animated Demos Blog All Technology Algorithm Sorting Algorithm [https:terry-su.github.ioBlogCDNimagessimpson-evolution.jpg] After learning common sorting algorithms, feel like demonstrating them using not only brief description but also animated demos. Here contains">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demonstrate Sorting Algorithms with Animated Demos (Terry Su Blog)</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  </head>
+  <body>
+    
+<div id="preRender" style="width:1px;height:1px;overflow:hidden;"></div>
+    <div id="markedHtml" style="display: none;"><p><img src="https://terry-su.github.io/BlogCDN/images/simpson-evolution.jpg" alt="">    </p>
+<p>After learning common sorting algorithms, feel like demonstrating them using not only brief description but also animated demos.</p>
+<p>Here contains 6 sorting algorithms, half are simple, half are advanced.</p>
+<ul>
+<li>Bubble sort</li>
+<li>Selection sort</li>
+<li>Insertion sort</li>
+<li>~</li>
+<li>Merge sort</li>
+<li>Shell sort</li>
+<li>Quick sort</li>
+</ul>
+<h2 id="bubble-sort">Bubble sort</h2>
+<p>This maybe the simplest sort, notoriously slow though.<br>Suppose we were arranging a queue of baseball players by their height. 
+Start from leftmost.</p>
+<ol>
+<li>compare two players </li>
+<li>if the one on the left is taller, swap them. Otherwise, no action.</li>
+<li>move one position right</li>
+</ol>
+<iframe src="https://terry-su.github.io/BlogCDN/iframes/algorithm/bubble-sort/index.html?mode=result" ></iframe>
+
+
+
+<h2 id="selection-sort">Selection sort</h2>
+<p>Start from leftmost too.</p>
+<ol>
+<li>look for minimum player from current position to right</li>
+<li>swap minimum player with the player at current position</li>
+<li>move one position right</li>
+</ol>
+<iframe src="https://terry-su.github.io/BlogCDN/iframes/algorithm/selection-sort/index.html?mode=result" ></iframe>
+
+
+
+<h2 id="insertion-sort">Insertion sort</h2>
+<p>In most cases, this is the best of elementary sorts. It&#39;s about twice as fast as the bubble sort.<br>The steps is somewhat complicated than sorts above.Start from leftmost.</p>
+<ol>
+<li>partially sort left players</li>
+<li>choose the first unsorted player as marked player</li>
+<li>shift the players shorter than marked player to right</li>
+<li>insert marked player into the previous  position of first shifted player.</li>
+</ol>
+<iframe src="https://terry-su.github.io/BlogCDN/iframes/algorithm/insertion-sort/index.html?mode=result" ></iframe>
+
+
+
+
+<h2 id="merge-sort">Merge sort</h2>
+<p>The heart of the merge sort algorithm are the merging of two already-sorted arrays and recursion.<br><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e6/Merge_sort_algorithm_diagram.svg/800px-Merge_sort_algorithm_diagram.svg.png" alt=""></p>
+<p>As shown in picture, main steps are:</p>
+<ol>
+<li>Recur to split numbers into 2 parts</li>
+<li>merge 2 parts</li>
+</ol>
+<iframe src="https://terry-su.github.io/BlogCDN/iframes/algorithm/merge-sort/index.html?mode=result" ></iframe>
+
+
+
+<h2 id="shell-sort">Shell sort</h2>
+<p>The name &quot;Shell sort&quot; is named for Donald Shell, who discovered it. It&#39;s based on <strong>insertion sort</strong>, but adds a new feature that dramatically improves the insertion sort&#39;s performance.  </p>
+<p>Main steps</p>
+<ol>
+<li>divide array into groups by interval(3 for example) and sort them continously until all items are divided and sorted.</li>
+<li>diminish the interval and continue to divide and sort until the interval becomes 1.</li>
+</ol>
+<iframe src="https://terry-su.github.io/BlogCDN/iframes/algorithm/shell-sort/index.html?mode=result" ></iframe>
+
+
+
+
+<h2 id="quick-sort">Quick sort</h2>
+<p>In the majority of situations, this is the fastest sort.</p>
+<ol>
+<li>choose a pivot(rightmost item)</li>
+<li>partition the array into left sub array(smaller keys) and right sub array(larger keys)</li>
+<li>recur step2 to left sub array and right sub array</li>
+</ol>
+<iframe src="https://terry-su.github.io/BlogCDN/iframes/algorithm/quick-sort/index.html?mode=result" ></iframe>
+
+</div>
+    <div id="app"></div>
+  
+    
+    <script>window.GV={ dataString: "%7B%22name%22%3A%22Demonstrate%20Sorting%20Algorithms%20with%20Animated%20Demos%22%2C%22createTime%22%3A%222019/01/15%2022%3A54%22%2C%22categorySequence%22%3A%5B%22All%22%2C%22Technology%22%2C%22Algorithm%22%2C%22Sorting%20Algorithm%22%5D%2C%22tags%22%3A%5B%5D%2C%22config%22%3A%7B%22detail%22%3A%7B%22scripts%22%3A%5B%22%3Cscript%20src%3D%5C%22https%3A//terry-su.github.io/BlogCDN/scripts/detail.bundle.js%5C%22%3E%3C/script%3E%22%2C%22%5Cn%3Cscript%3E%5Cnvar%20_hmt%20%3D%20_hmt%20%7C%7C%20%5B%5D%3B%5Cn%28function%28%29%20%7B%5Cn%20%20var%20hm%20%3D%20document.createElement%28%5C%22script%5C%22%29%3B%5Cn%20%20hm.src%20%3D%20%5C%22https%3A//hm.baidu.com/hm.js%3Fcc6d133d9a7057a832c9b0dd0242546b%5C%22%3B%5Cn%20%20var%20s%20%3D%20document.getElementsByTagName%28%5C%22script%5C%22%29%5B0%5D%3B%20%5Cn%20%20s.parentNode.insertBefore%28hm%2C%20s%29%3B%5Cn%7D%29%28%29%3B%5Cn%3C/script%3E%5Cn%22%5D%2C%22slogan%22%3A%22Step%20by%20step%22%2C%22textLogo%22%3A%22TS%22%2C%22commentRoot%22%3A%22https%3A//api.github.com/repos/terry-su/tsblogcomments-en/issues/%22%2C%22commentPageRoot%22%3A%22https%3A//github.com/Terry-Su/TSBlogComments-En/issues/%22%2C%22home%22%3A%22/%22%2C%22bottomText%22%3A%22%3Cbr/%3EOK%2C%20that%27s%20all.%20It%27s%20my%20pleasure%20if%20this%20article%20helped%20you.%20And%20if%20you%20have%20any%20questions%20or%20advice%2C%20just%20make%20a%20comment%20at%20the%20bottom.%20Hope%20for%20your%20incisive%20insights.%22%2C%22mathCssUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css%22%2C%22mathJsUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.js%22%2C%22mermaidJsUrl%22%3A%22https%3A//terry-su.github.io/CDN/libraries/mermaid/mermaid.min.js%22%7D%2C%22lang%22%3A%22en%22%7D%2C%22uniqueHtmlName%22%3A%22demonstrate-sorting-algorithms-with-animated-demos%22%2C%22blogProps%22%3A%7B%22createTime%22%3A%222019/01/15%2022%3A54%22%2C%22comment%22%3A%2213%22%7D%7D" }</script>
+    <script src="https://terry-su.github.io/BlogCDN/scripts/detail.bundle.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?cc6d133d9a7057a832c9b0dd0242546b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  </body>
+  </html>
+  

@@ -1,0 +1,75 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Gist - ES6 Fetch Usage Blog All Technology Javascript ES6 javascript es6 INTRODUCTION Do you prefer the usage of ES6 Promise? If you do, you will like the usage of Fetch too. Compared to Ajax, Fetch owns a competitive feature: promise, which synchronize asynchronous methods elegantly, the meaning and">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Gist - ES6 Fetch Usage (Terry Su Blog)</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  </head>
+  <body>
+    
+<div id="preRender" style="width:1px;height:1px;overflow:hidden;"></div>
+    <div id="markedHtml" style="display: none;"><h1 id="introduction">Introduction</h1>
+<p>Do you prefer the usage of &quot;ES6 Promise&quot;? If you do, you will like the usage of &quot;Fetch&quot; too.<br>Compared to &quot;Ajax&quot;, &quot;Fetch&quot; owns a competitive feature: promise, which synchronize asynchronous methods elegantly, the meaning and the usage of &quot;Fetch&quot;  can be understood easily as well.<br>Here, I&#39;d like to list the most common usage of &quot;Fetch&quot;. </p>
+<h1 id="flow">Flow</h1>
+<p>The flow of fetching stuff is simple:<br><img src="https://sfault-image.b0.upaiyun.com/381/502/3815021434-595f6cfd6f71b_articlex" alt="">   </p>
+<h1 id="usage">Usage</h1>
+<h2 id="fetch-once">Fetch once</h2>
+<p>Suppose we would fetch the content of an remote html</p>
+<pre><code class="language-js">fetch(&#39;./data/test.html&#39;)
+    .then(function (response) {
+        return response.text()    // return a promise 
+    })
+    .then(function (body) {
+        console.log( body )    // log: html content
+    })</code></pre>
+<h2 id="fetch-data-right-after-the-other-data-fetched-chain-">Fetch data right after the other data fetched(Chain)</h2>
+<p>If we&#39;d like to fetch data(json) right after fetching content(html)</p>
+<pre><code class="language-js">fetch(&#39;./data/test.html&#39;)
+    .then(response =&gt; {
+        return response.text()
+    })
+    .then(body =&gt; {
+        console.log(body)
+        return fetch(&#39;./data/test.json&#39;)  // return a promise(`fetch(&#39;/url&#39;)` will return a promise ) 
+    })
+    .then(response =&gt; {
+        return response.json()  // return a promise too
+    })
+    .then(json =&gt; {
+        console.log(json)  // log: json&#39;s data
+    })</code></pre>
+<h2 id="complete-all-fetching-action">Complete all fetching action</h2>
+<pre><code class="language-js">Promise.all([
+    Promise.resolve(fetch(&#39;./data/test.html&#39;)),
+    Promise.resolve(fetch(&#39;./data/test.json&#39;))
+]).then(data =&gt; {
+    console.log(&#39;Two requests are both completed!&#39;)
+})</code></pre>
+<h1 id="api">API</h1>
+<p><a href="https://github.github.io/fetch/">Github Fetch Document</a><br><a href="https://fetch.spec.whatwg.org/">Offcial Manual</a></p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Fetch, well done!</p>
+</div>
+    <div id="app"></div>
+  
+    
+    <script>window.GV={ dataString: "%7B%22name%22%3A%22Gist%20-%20ES6%20Fetch%20Usage%22%2C%22createTime%22%3A%222017/08/08%2022%3A40%22%2C%22categorySequence%22%3A%5B%22All%22%2C%22Technology%22%2C%22Javascript%22%2C%22ES6%22%5D%2C%22tags%22%3A%5B%22javascript%22%2C%22es6%22%5D%2C%22config%22%3A%7B%22detail%22%3A%7B%22scripts%22%3A%5B%22%3Cscript%20src%3D%5C%22https%3A//terry-su.github.io/BlogCDN/scripts/detail.bundle.js%5C%22%3E%3C/script%3E%22%2C%22%5Cn%3Cscript%3E%5Cnvar%20_hmt%20%3D%20_hmt%20%7C%7C%20%5B%5D%3B%5Cn%28function%28%29%20%7B%5Cn%20%20var%20hm%20%3D%20document.createElement%28%5C%22script%5C%22%29%3B%5Cn%20%20hm.src%20%3D%20%5C%22https%3A//hm.baidu.com/hm.js%3Fcc6d133d9a7057a832c9b0dd0242546b%5C%22%3B%5Cn%20%20var%20s%20%3D%20document.getElementsByTagName%28%5C%22script%5C%22%29%5B0%5D%3B%20%5Cn%20%20s.parentNode.insertBefore%28hm%2C%20s%29%3B%5Cn%7D%29%28%29%3B%5Cn%3C/script%3E%5Cn%22%5D%2C%22slogan%22%3A%22Step%20by%20step%22%2C%22textLogo%22%3A%22TS%22%2C%22commentRoot%22%3A%22https%3A//api.github.com/repos/terry-su/tsblogcomments-en/issues/%22%2C%22commentPageRoot%22%3A%22https%3A//github.com/Terry-Su/TSBlogComments-En/issues/%22%2C%22home%22%3A%22/%22%2C%22bottomText%22%3A%22%3Cbr/%3EOK%2C%20that%27s%20all.%20It%27s%20my%20pleasure%20if%20this%20article%20helped%20you.%20And%20if%20you%20have%20any%20questions%20or%20advice%2C%20just%20make%20a%20comment%20at%20the%20bottom.%20Hope%20for%20your%20incisive%20insights.%22%2C%22mathCssUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css%22%2C%22mathJsUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.js%22%2C%22mermaidJsUrl%22%3A%22https%3A//terry-su.github.io/CDN/libraries/mermaid/mermaid.min.js%22%7D%2C%22lang%22%3A%22en%22%7D%2C%22uniqueHtmlName%22%3A%22gist-es6-fetch-usage%22%2C%22blogProps%22%3A%7B%22createTime%22%3A%222017/08/08%2022%3A40%22%2C%22tags%22%3A%5B%22javascript%22%2C%22es6%22%5D%2C%22comment%22%3A%224%22%7D%7D" }</script>
+    <script src="https://terry-su.github.io/BlogCDN/scripts/detail.bundle.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?cc6d133d9a7057a832c9b0dd0242546b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  </body>
+  </html>
+  

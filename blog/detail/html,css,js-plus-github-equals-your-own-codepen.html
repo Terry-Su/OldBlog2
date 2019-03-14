@@ -1,0 +1,71 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="description" content="HTMLCSSJS + Github = Your Own CodePen Blog All Technology Project Little Bar [https:terry-su.github.ioBlogCDNimagesphotolittle-bar.jpg]( Little Bar at ChengDu, China ) CodePen [https:codepen.io] and JSFiddle [https:jsfiddle.net] are both convenient online codes editors for front-end developers. And you">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML/CSS/JS + Github = Your Own CodePen (Terry Su Blog)</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+  </head>
+  <body>
+    
+<div id="preRender" style="width:1px;height:1px;overflow:hidden;"></div>
+    <div id="markedHtml" style="display: none;"><p><img src="https://terry-su.github.io/BlogCDN/images/photo/little-bar.jpg" alt="Little Bar">
+<em>( Little Bar at ChengDu, China )</em></p>
+<p><a href="https://codepen.io">CodePen</a> and <a href="https://jsfiddle.net/">JSFiddle</a> are both convenient online codes editors for front-end developers. And you can demonstrate your code examples vividly in your blog or website by inserting an online editor example, which displays codes and the final result.  </p>
+<p>However, how an editor&#39;s style can stay the same with the style of your blog or website is a problem, and you have to rely on them deeply. Because of these limits, I&#39;m wondering if we can write our own code viewer using totally front-end technologies without any dynamic server, and the answer is amazing &quot;YES&quot;.</p>
+<h2 id="showcase">Showcase</h2>
+<iframe src="https://terry-su.github.io/CDN/CodeViewer/index.html?defaultDataUrl=https://terry-su.github.io/CDN/CodeViewer/examples/hello.js" frameborder="0"></iframe>
+
+
+
+<h2 id="how-it-works">How it works</h2>
+<p>There&#39;re 3 HTML layers:</p>
+<pre><code class="language-css"> __________
+/_________/ User HTML
+
+ __________
+/_________/ CodeViewer HTML
+
+ __________
+/_________/ Basic HTML</code></pre>
+<ul>
+<li>Basic HTML: most basic HTML that receives the data, HTML/CSS/JS strings, for rendering standalone web page from parent HTML.</li>
+</ul>
+<ul>
+<li>CodeViewer HTML: building the user interfaces to update basic HTML, and receiving settings from parent HTML.</li>
+</ul>
+<ul>
+<li>User HTML: yeah, it applies some settings, such as default data or default display mode, on CodeViewer HTML.</li>
+</ul>
+<h2 id="how-it-s-built">How it&#39;s built</h2>
+<p>Based on concepts above, you can already build a <a href="https://terry-su.github.io/CDN/CodeViewer/basicVersion/index.html">simplified CodeViewer HTML</a>, and the <a href="https://github.com/Terry-Su/CDN/tree/master/CodeViewer/basicVersion">source codes</a> are so simple that it doesn&#39;t even need Webpack at all.   </p>
+<p>However, to organize the interaction logic of CodeViewer better, using React and Redux is a good idea. CodeViewer is now using Typescript + React + <a href="https://github.com/dvajs/dva">Dva</a>(a light framework including redux) as development environment.     </p>
+<p>And CodeViewer is deployed simply on a commonly used static server: <a href="https://pages.github.com/">Github(Github Pages)</a>.</p>
+<h2 id="where-and-how-to-use-it">Where and how to use it</h2>
+<p>In fact, you can use it anywhere only if there supports iframe. Specifically, <code>github.io</code> Github pages support iframe, like <a href="https://drawjs.github.io">the official website of a canvas library</a> I wrote before.   </p>
+<p>To bind content with editor, you add content url as a parameter immediately after the CodeViewer url:   &quot;Codeviewer url + <code>?defaultDataUrl=</code> + Content url&quot;</p>
+<p>Then, just insert <code>&lt;iframe src=&quot;your-code-viewer-url&quot;&gt;&lt;/iframe&gt;</code> into your blog or website page.  </p>
+<p>Similarly, you can also configure default display mode. For more detail, visit <a href="https://github.com/Terry-Su/CodeViewer">Codeviewer&#39;s source codes page</a>. </p>
+</div>
+    <div id="app"></div>
+  
+    
+    <script>window.GV={ dataString: "%7B%22name%22%3A%22HTML/CSS/JS%20+%20Github%20%3D%20Your%20Own%20CodePen%22%2C%22createTime%22%3A%222018/09/11%2000%3A08%22%2C%22categorySequence%22%3A%5B%22All%22%2C%22Technology%22%2C%22Project%22%5D%2C%22tags%22%3A%5B%5D%2C%22config%22%3A%7B%22detail%22%3A%7B%22scripts%22%3A%5B%22%3Cscript%20src%3D%5C%22https%3A//terry-su.github.io/BlogCDN/scripts/detail.bundle.js%5C%22%3E%3C/script%3E%22%2C%22%5Cn%3Cscript%3E%5Cnvar%20_hmt%20%3D%20_hmt%20%7C%7C%20%5B%5D%3B%5Cn%28function%28%29%20%7B%5Cn%20%20var%20hm%20%3D%20document.createElement%28%5C%22script%5C%22%29%3B%5Cn%20%20hm.src%20%3D%20%5C%22https%3A//hm.baidu.com/hm.js%3Fcc6d133d9a7057a832c9b0dd0242546b%5C%22%3B%5Cn%20%20var%20s%20%3D%20document.getElementsByTagName%28%5C%22script%5C%22%29%5B0%5D%3B%20%5Cn%20%20s.parentNode.insertBefore%28hm%2C%20s%29%3B%5Cn%7D%29%28%29%3B%5Cn%3C/script%3E%5Cn%22%5D%2C%22slogan%22%3A%22Step%20by%20step%22%2C%22textLogo%22%3A%22TS%22%2C%22commentRoot%22%3A%22https%3A//api.github.com/repos/terry-su/tsblogcomments-en/issues/%22%2C%22commentPageRoot%22%3A%22https%3A//github.com/Terry-Su/TSBlogComments-En/issues/%22%2C%22home%22%3A%22/%22%2C%22bottomText%22%3A%22%3Cbr/%3EOK%2C%20that%27s%20all.%20It%27s%20my%20pleasure%20if%20this%20article%20helped%20you.%20And%20if%20you%20have%20any%20questions%20or%20advice%2C%20just%20make%20a%20comment%20at%20the%20bottom.%20Hope%20for%20your%20incisive%20insights.%22%2C%22mathCssUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.css%22%2C%22mathJsUrl%22%3A%22https%3A//cdn.jsdelivr.net/npm/katex@0.10.0-beta/dist/katex.min.js%22%2C%22mermaidJsUrl%22%3A%22https%3A//terry-su.github.io/CDN/libraries/mermaid/mermaid.min.js%22%7D%2C%22lang%22%3A%22en%22%7D%2C%22uniqueHtmlName%22%3A%22html%2Ccss%2Cjs-plus-github-equals-your-own-codepen%22%2C%22blogProps%22%3A%7B%22name%22%3A%22HTML/CSS/JS%20+%20Github%20%3D%20Your%20Own%20CodePen%22%2C%22createTime%22%3A%222018/09/11%2000%3A08%22%2C%22comment%22%3A%229%22%7D%7D" }</script>
+    <script src="https://terry-su.github.io/BlogCDN/scripts/detail.bundle.js"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?cc6d133d9a7057a832c9b0dd0242546b";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+  </body>
+  </html>
+  
